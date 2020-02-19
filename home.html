@@ -1,0 +1,29 @@
+<p>
+    Open Appointments
+</p>
+<div id="websock-data">
+    DMV Location<p id="name"> </p>
+    Date<p id="date"> </p>
+    -><p id="error"> </p>
+</div>
+<script>
+    var ws = new WebSocket('ws://localhost:40511');
+
+    ws.onopen = function () {
+        console.log('websocket is connected ...')
+        ws.send('connected')
+    }
+
+    ws.onmessage = function (ev) {
+        console.log(ev.data);
+        const data = JSON.parse(ev.data);
+        if(data.name){
+         document.getElementById("name").innerHTML=data.name;
+         document.getElementById("date").innerHTML=data.date;
+        }
+        if(data.error){
+            document.getElementById("error").innerHTML=data.error;
+        }
+
+    }
+</script>
